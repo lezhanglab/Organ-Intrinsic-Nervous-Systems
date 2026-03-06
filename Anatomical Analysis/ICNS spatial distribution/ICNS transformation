@@ -1,9 +1,133 @@
+</> MATLAB
 %% Reconstruct heart outlines and ICNS from immunolabeling images.
-% In Fiji, open tif file, Process->Binary->Make Binary, choose Percentile. 
-% Process->Binary->Open
-% Process->Binary->Closed-
-% Add a number of Process->Binary->Dilate as needed
-% Process->Binary->Fill Holes
-% Process->Binary->Outline
-% Edit->Invert
-% save. This will produce heart outlines. 
+% In Fiji, open the TIFF file and apply the following steps:
+% 1. Process -> Binary -> Make Binary, then choose "Percentile"
+% 2. Process -> Binary -> Open
+% 3. Process -> Binary -> Close
+% 4. Apply Process -> Binary -> Dilate as many times as needed
+% 5. Process -> Binary -> Fill Holes
+% 6. Process -> Binary -> Outline
+% 7. Edit -> Invert
+% 8. Save the result
+% This procedure produces the heart outlines.
+
+%% Load Image stacks
+Heart_Outline = tiffreadVolume('heart_Outline.tif'); %"heart_Outline.tif" is an example file name here.
+
+%% Generate Heart Outline matrix
+Heart = [];
+micron_to_pixel = 0.675;
+% Define the section ranges containing the atrium:
+% full resolution before a1
+% reduced resolution between a1 and a2, 
+% low resolution below a2
+a1 = 70;
+a2 = 100;
+
+for i = 1:size(Heart_Outline,3)
+    A = Heart_Outline(:,:,i);
+    [col,row] = find(A);
+    B = [row col];
+    j = length(row);
+    x = 1:j;
+    if i > a1
+        if i > a2
+            if j > 1000
+                x = randi(j,fix(j/100),1);
+            else
+                if j > 100
+                    x = randi(j,fix(j/10),1);
+                end
+            end
+        else
+            x = randi(j,fix(j/(99*(i-a1)/(a2-a1)+1)),1);
+        end
+    end
+    B = B(x,:);
+    B(:,3) = i;
+    Heart = [Heart;B];
+end
+
+% Convert from pixels/section index to physical units
+Heart_micron = Heart;
+Heart_micron(:,1) = Heart(:,1)*micron_to_pixel;
+Heart_micron(:,2) = Heart(:,2)*micron_to_pixel;
+Heart_micron(:,3) = Heart(:,3) * (-10.002);
+
+% Plot 3D heart outline
+figure;
+scatter3(Heart_micron(:,1),Heart_micron(:,2),Heart_micron(:,3),0.5,'ko','filled');
+hold on;
+
+%% Plot Atrial Landmarks 
+Landmark_micron = Landmark;
+Landmark_micron(:,3) = -Landmark_micron(:,3);
+
+% Extract landmarks
+AA = Landmark_micron(1,:); % anterior edge
+PA = Landmark_micron(3,:); % posterior edge 
+LAJ = Landmark_micron(2,:); % left junctions between the atrial dome and appendages
+RAJ = Landmark_micron(4,:); % right junctions between the atrial dome and appendages
+
+% plot raw landmark points
+
+% plot AA, labeled as star
+scatter3(AA(1),AA(2),AA(3),100,'cp','filled');
+
+% plot PA, labeled as square
+scatter3(PA(1),PA(2),PA(3),100,'cs','filled');
+
+% plot LAJ, labeled as left-pointing triangle
+scatter3(LAJ(1),LAJ(2),LAJ(3),100,'c<');
+
+% plot RAJ, labeled as right-poingting triangle
+scatter3(RAJ(1),RAJ(2),RAJ(3),100,'c>','filled');
+
+%% Simulate plain S1 with all 4 landmark points
+xyz0=mean(Landmark_micron,1);
+centeredPlane=bsxfun(@minus,Landmark_micron,xyz0);
+[U,S,V]=svd(centeredPlane);
+
+a_S1=V(1,3);
+b_S1=V(2,3);
+c_S1=V(3,3);
+d_S1=-dot([a_S1 b_S1 c_S1],xyz0);
+
+S1_vertical_vector = transpose(V(:,3));
+
+% set positive direction for S1 vector towards the top of the heart
+xyz0_positive = xyz0;
+xyz0_positive(:,3) = xyz0_positive(:,3)+200;
+xyz0_positive_z = dot(S1_vertical_vector,xyz0_positive)+d_S1;
+
+if xyz0_positive_z < 0
+    S1_vertical_vector = -S1_vertical_vector;
+    d_S1 = -d_S1;
+end
+
+S1_norm_vector = S1_vertical_vector/sqrt(dot(S1_vertical_vector,S1_vertical_vector));
+
+% projection points on the new plane
+pAA = AA - (sum(AA.*S1_vertical_vector)+d_S1)/sqrt(dot(S1_vertical_vector,S1_vertical_vector))*S1_vertical_vector;
+pPA = PA - (sum(PA.*S1_vertical_vector)+d_S1)/sqrt(dot(S1_vertical_vector,S1_vertical_vector))*S1_vertical_vector;
+pLAJ = LAJ - (sum(LAJ.*S1_vertical_vector)+d_S1)/sqrt(dot(S1_vertical_vector,S1_vertical_vector))*S1_vertical_vector;
+pRAJ = RAJ - (sum(RAJ.*S1_vertical_vector)+d_S1)/sqrt(dot(S1_vertical_vector,S1_vertical_vector))*S1_vertical_vector;
+
+pLandmark = [pAA;pLAJ;pPA;pRAJ];
+
+% plot projection points, in blue
+
+% plot pAA, labeled as star
+scatter3(pAA(1),pAA(2),pAA(3),150,'bp','filled');
+
+% plot pPA, labeled as sqaure
+scatter3(pPA(1),pPA(2),pPA(3),150,'bs','filled');
+
+% plot pLAJ, labeled as left-pointing triangle
+scatter3(pLAJ(1),pLAJ(2),pLAJ(3),150,'b<');
+
+% plot pRAJ, labeled as right-poingting triangle
+scatter3(pRAJ(1),pRAJ(2),pRAJ(3),150,'b>','filled');
+
+
+
