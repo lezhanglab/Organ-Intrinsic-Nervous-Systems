@@ -1,0 +1,26 @@
+%% transformed ICNS 2D distribution
+bin1 = 50;
+size1 = 1000;
+x = -(size1+bin1/2):bin1:(size1+bin1/2);
+y = x;
+for i = 1:AgeNum
+    B = zeros(length(x),length(x),3);
+    for j = 1:SampleNum(i)
+        A = tICN_2D{i,j};
+        B(:,:,j) = A;
+    end
+    mean_tICN_2D(:,:,i) = mean(B,3);
+    figure;
+    zlevs = 3:5:25;
+    contourf(x,y,transpose(mean_tICN_2D(:,:,i)),zlevs, 'LineColor', 'none');
+    colormap(Red) 
+    colorbar 
+    caxis([0 25]) 
+    a = FolderName(i);
+    a = [a{:}];
+    AgeName = a(1);
+    filename1 = strcat('tICN_2D_',AgeName,'_mean.fig');
+    filename1 = [filename1{:}];
+    title(filename1)
+    %saveas(gcf,filename1)
+end
