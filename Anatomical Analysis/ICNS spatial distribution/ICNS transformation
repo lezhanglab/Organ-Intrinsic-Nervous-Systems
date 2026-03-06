@@ -129,5 +129,224 @@ scatter3(pLAJ(1),pLAJ(2),pLAJ(3),150,'b<');
 % plot pRAJ, labeled as right-poingting triangle
 scatter3(pRAJ(1),pRAJ(2),pRAJ(3),150,'b>','filled');
 
+%% plot ICNs
+ICN_raw_micron = [];
+% if ICN coordinates were from the raw image
+ICN_raw_micron(:,1) = ICN_raw(:,1);
+% if ICN coordinates were from the inverted image
+% ICN_raw_micron(:,1) = size(Heart_Outline,2)*micron_to_pixel - ICN_raw(:,1);
+ICN_raw_micron(:,2) = ICN_raw(:,2);
+ICN_raw_micron(:,3) = ICN_raw(:,3) * (-10.002);
+ICN_raw_micron = unique(ICN_raw_micron,'rows');
+ICN_number = size(ICN_raw_micron,1);
+scatter3(ICN_raw_micron(:,1),ICN_raw_micron(:,2),ICN_raw_micron(:,3),30,'ro','filled');
+
+%% Coordinate centering: Set tpAA = [0 -y 0] and tpPA = [0 y 0]
+norm_factor = pdist([pAA;pPA],'euclidean');
+center = (pAA+pPA)/2;
+
+% Set plain S2 with pAA_pPA as vertical_vector 
+S2_vertical_vector = pPA-pAA;
+S2_norm_vector = S2_vertical_vector/sqrt(dot(S2_vertical_vector,S2_vertical_vector));
+d_S2 = -dot(S2_norm_vector,center);
+
+% Set plain S3 made by S2_vertical_vector and S1_vertical_vector
+S3_vertical_vector = -cross(S1_vertical_vector, S2_vertical_vector);
+S3_norm_vector = S3_vertical_vector/sqrt(dot(S3_vertical_vector,S3_vertical_vector));
+d_S3 = -dot(S3_norm_vector,center);
+
+% Calculate additional axis landmarks
+X_Left = [center(1)+S3_norm_vector(1)*norm_factor center(2)+S3_norm_vector(2)*norm_factor center(3)+S3_norm_vector(3)*norm_factor];
+X_Right = [center(1)-S3_norm_vector(1)*norm_factor center(2)-S3_norm_vector(2)*norm_factor center(3)-S3_norm_vector(3)*norm_factor];
+Y_Anterior = [center(1)-S2_norm_vector(1)*norm_factor center(2)-S2_norm_vector(2)*norm_factor center(3)-S2_norm_vector(3)*norm_factor]
+Y_Posterior = [center(1)+S2_norm_vector(1)*norm_factor center(2)+S2_norm_vector(2)*norm_factor center(3)+S2_norm_vector(3)*norm_factor]
+Z_Top = [center(1)+S1_norm_vector(1)*norm_factor center(2)+S1_norm_vector(2)*norm_factor center(3)+S1_norm_vector(3)*norm_factor];
+Z_Bottom = [center(1)-S1_norm_vector(1)*norm_factor center(2)-S1_norm_vector(2)*norm_factor center(3)-S1_norm_vector(3)*norm_factor];
+
+Axesmark = [X_Left;X_Right;Y_Anterior;Y_Posterior;Z_Top;Z_Bottom];
+Allmark = [Landmark_micron;pLandmark;Axesmark];
+
+%% plot plains S1, S2, S3
+% Plot 3D axes
+scatter3(X_Left(1),X_Left(2),X_Left(3),200,'mo','filled');
+scatter3(X_Right(1),X_Right(2),X_Right(3),200,'mo');
+scatter3(Y_Anterior(1),Y_Anterior(2),Y_Anterior(3),200,'mo','filled');
+scatter3(Y_Posterior(1),Y_Posterior(2),Y_Posterior(3),200,'mo');
+scatter3(Z_Top(1),Z_Top(2),Z_Top(3),200,'mo','filled');
+scatter3(Z_Bottom(1),Z_Bottom(2),Z_Bottom(3),200,'mo');
+plot3([X_Left(1) X_Right(1)],[X_Left(2) X_Right(2)],[X_Left(3) X_Right(3)],'m-','LineWidth',2);
+plot3([Y_Anterior(1) Y_Posterior(1)],[Y_Anterior(2) Y_Posterior(2)],[Y_Anterior(3) Y_Posterior(3)],'m-','LineWidth',2);
+plot3([Z_Top(1) Z_Bottom(1)],[Z_Top(2) Z_Bottom(2)],[Z_Top(3) Z_Bottom(3)],'m-','LineWidth',2);
+
+% Plot Plain S1
+tx = -5:5;
+ty = -5:5;
+X = zeros(11,11);
+Y = zeros(11,11);
+for i = 1:11
+    for j = 1:11
+        X(i,j) = center(1)+tx(i)*S3_norm_vector(1)*norm_factor/5+ty(j)*S2_norm_vector(1)*norm_factor/5;
+        Y(i,j) = center(2)+tx(i)*S3_norm_vector(2)*norm_factor/5+ty(j)*S2_norm_vector(2)*norm_factor/5;
+    end
+end
+Z = -(d_S1+S1_norm_vector(1,1)*X+S1_norm_vector(1,2)*Y)/S1_norm_vector(1,3);
+S1 = surf(X,Y,Z);
+S1.FaceAlpha = 0.1;
+
+% Plot Plain S2
+tx = -5:5;
+tz = -5:5;
+X = zeros(11,11);
+Z = zeros(11,11);
+for i = 1:11
+    for j = 1:11
+        X(i,j) = center(1)+tx(i)*S3_norm_vector(1)*norm_factor/5+tz(j)*S1_norm_vector(1)*norm_factor/5;
+        Z(i,j) = center(3)+tx(i)*S3_norm_vector(3)*norm_factor/5+tz(j)*S1_norm_vector(3)*norm_factor/5;
+    end
+end
+Y = -(d_S2+S2_norm_vector(1,1)*X+S2_norm_vector(1,3)*Z)/S2_norm_vector(1,2);
+S2 = surf(X,Y,Z);
+S2.FaceAlpha = 0.1;
+
+% Plot Plain S3
+tz = -5:5;
+ty = -5:5;
+Z = zeros(11,11);
+Y = zeros(11,11);
+for i = 1:11
+    for j = 1:11
+        Z(i,j) = center(3)+tx(i)*S1_norm_vector(3)*norm_factor/5+ty(j)*S2_norm_vector(3)*norm_factor/5;
+        Y(i,j) = center(2)+tx(i)*S1_norm_vector(2)*norm_factor/5+ty(j)*S2_norm_vector(2)*norm_factor/5;
+    end
+end
+X = -(d_S3+S3_norm_vector(1,2)*Y+S3_norm_vector(1,3)*Z)/S3_norm_vector(1,1);
+S3 = surf(X,Y,Z);
+S3.FaceAlpha = 0.1;
+
+%% Generate new ICN transformation and norm matrix
+% Set coordinate matrix after transformation
+tAllmark = zeros(length(Allmark),3);
+tICN = zeros(ICN_number,3);
+tHeart = zeros(length(Heart_micron),3);
+
+% Calculate landmark coordinates after transformation
+for i = 1:length(Allmark)
+    % Calculate Z: distance from the point to plain S1
+    tAllmark(i,3) = dot(S1_norm_vector,Allmark(i,:))+d_S1;
+    % Calculate Y: distance from the point to plain S2
+    tAllmark(i,2) = dot(S2_norm_vector,Allmark(i,:))+d_S2;
+    % Calculate X: distance from the point to plain S3
+    tAllmark(i,1) = dot(S3_norm_vector,Allmark(i,:))+d_S3;
+end
+
+% Calculate ICN coordinates after transformation
+for i = 1:ICN_number
+    % Calculate Z: distance from the point to plain S1
+    tICN(i,3) = dot(S1_norm_vector,ICN_raw_micron(i,:))+d_S1;
+    % Calculate Y: distance from the point to plain S2
+    tICN(i,2) = dot(S2_norm_vector,ICN_raw_micron(i,:))+d_S2;
+    % Calculate X: distance from the point to plain S3
+    tICN(i,1) = dot(S3_norm_vector,ICN_raw_micron(i,:))+d_S3;
+end
+
+% Calculate heart coordinates after transformation
+for i = 1:length(Heart_micron)
+    % Calculate Z: distance from the point to plain S1
+    tHeart(i,3) = dot(S1_norm_vector,Heart_micron(i,:))+d_S1;
+    % Calculate Y: distance from the point to plain S2
+    tHeart(i,2) = dot(S2_norm_vector,Heart_micron(i,:))+d_S2;
+    % Calculate X: distance from the point to plain S3
+    tHeart(i,1) = dot(S3_norm_vector,Heart_micron(i,:))+d_S3;
+end
+
+%% Make 3D plots for transformed
+tAA = tAllmark(1,:);
+tPA = tAllmark(3,:);
+tLAJ = tAllmark(2,:);
+tRAJ = tAllmark(4,:);
+tpAA = tAllmark(5,:);
+tpPA = tAllmark(7,:);
+tpLAJ = tAllmark(6,:);
+tpRAJ = tAllmark(8,:);
+tX_Left = tAllmark(9,:);
+tX_Right = tAllmark(10,:);
+tY_Anterior = tAllmark(11,:);
+tY_Posterior = tAllmark(12,:);
+tZ_Top = tAllmark(13,:);
+tZ_Bottom = tAllmark(14,:);
+
+figure;
+scatter3(tHeart(:,1),tHeart(:,2),tHeart(:,3),0.5,'ko','filled');
+hold on;
+
+% plot transformed raw landmark points, in cyan
+
+% plot tAA, labeled as star
+scatter3(tAA(1),tAA(2),tAA(3),100,'cp','filled');
+
+% plot tPA, labeled as asterisk
+scatter3(tPA(1),tPA(2),tPA(3),100,'cs','filled');
+
+% plot tLAJ, labeled as left-pointing triangle
+scatter3(tLAJ(1),tLAJ(2),tLAJ(3),100,'c<');
+
+% plot tRAJ, labeled as right-poingting triangle
+scatter3(tRAJ(1),tRAJ(2),tRAJ(3),100,'c>','filled');
+
+% plot transformed projection points, in blue
+
+% plot tpAA, labeled as star
+scatter3(tpAA(1),tpAA(2),tpAA(3),150,'bp','filled');
+
+% plot tpPA, labeled as asterisk
+scatter3(tpPA(1),tpPA(2),tpPA(3),150,'bs','filled');
+
+% plot tpLAJ, labeled as left-pointing triangle
+scatter3(tpLAJ(1),tpLAJ(2),tpLAJ(3),150,'b<');
+
+% plot tpRAJ, labeled as right-poingting triangle
+scatter3(tpRAJ(1),tpRAJ(2),tpRAJ(3),150,'b>','filled');
+
+% Plot transformed 3D axes
+scatter3(tX_Left(1),tX_Left(2),tX_Left(3),200,'mo','filled');
+scatter3(tX_Right(1),tX_Right(2),tX_Right(3),200,'mo');
+scatter3(tY_Anterior(1),tY_Anterior(2),tY_Anterior(3),200,'mo','filled');
+scatter3(tY_Posterior(1),tY_Posterior(2),tY_Posterior(3),200,'mo');
+scatter3(tZ_Top(1),tZ_Top(2),tZ_Top(3),200,'mo','filled');
+scatter3(tZ_Bottom(1),tZ_Bottom(2),tZ_Bottom(3),200,'mo');
+plot3([tX_Left(1) tX_Right(1)],[tX_Left(2) tX_Right(2)],[tX_Left(3) tX_Right(3)],'m-','LineWidth',2);
+plot3([tY_Anterior(1) tY_Posterior(1)],[tY_Anterior(2) tY_Posterior(2)],[tY_Anterior(3) tY_Posterior(3)],'m-','LineWidth',2);
+plot3([tZ_Top(1) tZ_Bottom(1)],[tZ_Top(2) tZ_Bottom(2)],[tZ_Top(3) tZ_Bottom(3)],'m-','LineWidth',2);
+
+% plot transformed ICNs
+scatter3(tICN(:,1),tICN(:,2),tICN(:,3),30,'ro','filled');
+
+% plot plains
+% Plot Plain S1
+t = -5:5;
+X = transpose(ones(11,1).*t)*norm_factor/5;
+Y = ones(11,1)*t*norm_factor/5;
+Z = zeros(11,11);
+S1 = surf(X,Y,Z);
+S1.FaceAlpha = 0.2;
+
+% Plot Plain S2
+X = transpose(ones(11,1).*t)*norm_factor/5;
+Z = ones(11,1).*t*norm_factor/5;
+Y = zeros(11,11);
+S2 = surf(X,Y,Z);
+S2.FaceAlpha = 0.2;
+
+% Plot Plain S3
+Z = transpose(ones(11,1).*t)*norm_factor/5;
+Y = ones(11,1)*t*norm_factor/5;
+X = zeros(11,11);
+S3 = surf(X,Y,Z);
+S3.FaceAlpha = 0.2;
+
+%% Save file
+save heart.mat
+
+
 
 
