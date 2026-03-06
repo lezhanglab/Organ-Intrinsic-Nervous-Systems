@@ -1,6 +1,5 @@
 library(Seurat)
 library(lsa)
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/from_Yvonne/2026.01.07")
 obj <- readRDS("ENS_ICNS_balance_7_annotate.rds")
 
 DimPlot(obj, label = T)
@@ -53,7 +52,6 @@ p <- ggplot(df, aes(Var1, Var2, fill = value)) +
 p
 similarity_mat
 
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_revision_similarity_calculation")
 write.csv(similarity_mat, 'similarity_matrix_allpopulations.csv')
 
 pdf("similarity_matrix_allpopulations.pdf", width = 7.72, height = 5.51)
