@@ -9,7 +9,6 @@ library(scales)
 
 
 ### Trajectory 1-4
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudotime_correlation_analysis/results_slingshot_20240401")
 obj <- readRDS("obj_seurat.rds")
 cds_from_seurat <- readRDS("cds_slingshot.rds")
 
@@ -52,7 +51,6 @@ dev.off()
 
 
 ### Trajectory 1
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudotime_correlation_analysis/results_slingshot_20240401")
 obj <- readRDS("obj_seurat.rds")
 cds_from_seurat <- readRDS("cds_slingshot.rds")
 
@@ -91,7 +89,6 @@ dev.off()
 
 
 ### Trajectory 2
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudotime_correlation_analysis/results_slingshot_20240401")
 obj <- readRDS("obj_seurat.rds")
 cds_from_seurat <- readRDS("cds_slingshot.rds")
 
@@ -130,7 +127,6 @@ dev.off()
 
 
 ### Trajectory 3
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudotime_correlation_analysis/results_slingshot_20240401")
 obj <- readRDS("obj_seurat.rds")
 cds_from_seurat <- readRDS("cds_slingshot.rds")
 
@@ -169,7 +165,6 @@ dev.off()
 
 
 ### Trajectory 4
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudotime_correlation_analysis/results_slingshot_20240401")
 obj <- readRDS("obj_seurat.rds")
 cds_from_seurat <- readRDS("cds_slingshot.rds")
 
