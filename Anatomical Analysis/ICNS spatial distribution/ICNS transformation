@@ -344,6 +344,11 @@ X = zeros(11,11);
 S3 = surf(X,Y,Z);
 S3.FaceAlpha = 0.2;
 
+%% Normalize to |pAA_pPA|
+tnAllmark = tAllmark/norm_factor;
+tnICN = tICN/norm_factor;
+tnHeart = tHeart/norm_factor;
+
 %% Save file
 save heart.mat
 
