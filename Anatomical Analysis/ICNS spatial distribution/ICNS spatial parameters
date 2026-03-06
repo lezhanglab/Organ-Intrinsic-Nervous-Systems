@@ -117,6 +117,15 @@ k = 10;
 rICN_distance_nearest = mink(rICN_distance,k+1,2);
 rICN_distance_nearest = mean(rICN_distance_nearest(:,2:k+1),2);
 
+%% ICNS spatial distributions across animals and developmental stages (Extended Data Fig. 31d)
+for i = 1:AgeNum
+    for j = 1:SampleNum(i)
+        A = tnICN_2D_p{i,j};
+        B = A - mean_tnICN_2D_p(:,:,i);
+        C = B.^2;
+        std_tnICN_2D_p(i,j) = sum(sum(C));
+    end
+end
 
 
 
