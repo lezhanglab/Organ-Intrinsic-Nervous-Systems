@@ -1,0 +1,9 @@
+%% Reconstruct heart outlines and ICNS from immunolabeling images.
+% In Fiji, open tif file, Process->Binary->Make Binary, choose Percentile. 
+% Process->Binary->Open
+% Process->Binary->Closed-
+% Add a number of Process->Binary->Dilate as needed
+% Process->Binary->Fill Holes
+% Process->Binary->Outline
+% Edit->Invert
+% save. This will produce heart outlines. 
