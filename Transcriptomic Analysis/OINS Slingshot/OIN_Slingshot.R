@@ -7,7 +7,6 @@ library(RColorBrewer)
 
 
 ### Reading in Seurat object
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_integration_portal_harmony/results_portal")
 obj <- readRDS("Mar25_portal_4organOIN_withoutNPC_v1.rds")
 
 
@@ -155,7 +154,6 @@ obj@meta.data$slingPseudotime_5_minimax_norm <- cds_from_seurat$slingPseudotime_
 
 
 ### Save results
-setwd("/Users/zhaojia/Documents/Yale/Research/Projects - Rui/20240304, ICNs - Yvonne/oin_trajectory_pseudo_time_analysis/results_slingshot_20240401")
 saveRDS(obj, file = "obj_seurat.rds")
 saveRDS(cds_from_seurat, file = "cds_slingshot.rds")
 saveRDS(slingPseudotime(cds_from_seurat), file = "slingPseudotime.rds")
