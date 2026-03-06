@@ -4,7 +4,7 @@ size1 = 1000;
 x = -(size1+bin1/2):bin1:(size1+bin1/2);
 y = x;
 for i = 1:AgeNum
-    B = zeros(length(x),length(x),3);
+    B = zeros(length(x),length(x),SampleNum(i));
     for j = 1:SampleNum(i)
         A = tICN_2D{i,j};
         B(:,:,j) = A;
@@ -22,5 +22,5 @@ for i = 1:AgeNum
     filename1 = strcat('tICN_2D_',AgeName,'_mean.fig');
     filename1 = [filename1{:}];
     title(filename1)
-    %saveas(gcf,filename1)
+    saveas(gcf,filename1)
 end
