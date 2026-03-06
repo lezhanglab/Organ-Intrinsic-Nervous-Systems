@@ -2,96 +2,15 @@
 
 %% Acronyms: ICNS, ICN, and ICNs are used interchangeably and refer to intrinsic cardiac neurons.
 
-% load heart.mat tICN tICN_2D_cluster_number rICN_distance
+load heart.mat tICN tICN_2D_cluster_number rICN_distance
 
-%% Compute pairwise Euclidean distance matrices for raw ICNs
-rICN_distance = squareform(pdist(ICN_raw_micron));
+% calculate distance to 10 closest other ICNs
+k = 10;
+rICN_distance_nearest = mink(rICN_distance,k+1,2);
+rICN_distance_nearest = mean(rICN_distance_nearest(:,2:k+1),2);
 
-%% Calculate ICNS 2D distribution
 
-neuron0 = [tICN(:,1), tICN(:,2)];
 
-bin1 = 50; % for transformed ICN, in um.
-size1 = 1000; % halfSpan of plotting surface size for ICN, in um
-
-% Define bin centers for the 2D histogram
-xEdges = -(size1+bin1/2):bin1:(size1+bin1/2);
-yEdges = xEdges;
-
-% Compute 2D histogram of ICN positions
-neuron_2D = hist3(neuron0(:,1:2),{xEdges yEdges});
-
-%% ICNS cluster area 
-max_ICN_density = max(max(neuron_2D)); %Find the highest bin count in neuron_2D.
-max_ICN_density_mmsquare = max(max(neuron_2D))*(1000/bin1)^2; %Convert peak count to units of counts per mm².
-
-ICN_2D_image = uint8(neuron_2D);
-level1 = 2/255; % minimum number of ICNs/50um2 for counting ICN area (>2 neurons per bin).
-level2 = max_ICN_density*0.2/255; % 20% of max_ICN_density to define separate ICN clusters
-level3 = max_ICN_density/2; % 50% of max_ICN_density to define separate peaks
-
-% calculate ICN area
-ICN_2D_area_BW  = im2bw(ICN_2D_image,level1);
-ICN_2D_area = sum(sum(ICN_2D_area_BW));
-figure;
-imshow(ICN_2D_area_BW,'InitialMagnification',10000); % pass level 1
-
-ICN_number_in_cluster = sum(sum(neuron_2D(neuron_2D>level1*255)));
-ICN_density = ICN_number_in_cluster/ICN_2D_area;
-ICN_2D_area_in_micron = ICN_2D_area*2500;
-
-%% ICNS clusters
-% get disconnected ICN clusters from 2D image using bwlabel function
-ICN_2D_cluster_BW  = im2bw(ICN_2D_image,max(level1,level2)); %Thresholds the image at the higher of level1 or level2, marking potential cluster regions.
-[L,n] = bwlabel(ICN_2D_cluster_BW);
-figure;
-imshow(L, []);
-%imshow(L,'InitialMagnification',10000);
-
-% find locations of 2D peaks
-[nRows,nCols] = size(neuron_2D);
-ICN_2D_peak = [];
-for i = 2:nRows-1
-    for j = 2:nCols-1
-        m = [level3,neuron_2D(i-1,j-1),...
-            neuron_2D(i-1,j),...
-            neuron_2D(i-1,j+1),...
-            neuron_2D(i,j-1),...
-            neuron_2D(i,j+1),...
-            neuron_2D(i+1,j-1),...
-            neuron_2D(i+1,j),...
-            neuron_2D(i+1,j+1)];
-        if neuron_2D(i,j)>max(m)
-            ICN_2D_peak = [ICN_2D_peak;[i,j]]; %find local 2D peaks with threshold of level3
-        end
-    end
-end
-ICN_2D_cluster_temp = [];
-
-% get ICN cluster identities for valued peaks
-for i = 1:size(ICN_2D_peak,1)
-    row = ICN_2D_peak(i,1);
-    col = ICN_2D_peak(i,2);
-    ICN_2D_cluster_temp = [ICN_2D_cluster_temp;L(row,col)];
-end
-ICN_2D_cluster_temp = unique(ICN_2D_cluster_temp);
-
-% remove ICN clusters without peaks
-ICN_2D_cluster_false = setdiff(1:n,ICN_2D_cluster_temp);
-for i = 1:length(ICN_2D_cluster_false)
-    L(L==ICN_2D_cluster_false(i)) = 0;
-end
-
-% relabel ICN cluster identities
-for i = 1:length(ICN_2D_cluster_temp)
-    L(L==ICN_2D_cluster_temp(i)) = i;
-end
-
-tICN_2D_cluster_number = length(ICN_2D_cluster_temp);
-ICN_2D_cluster_map = flip(transpose(L));
-
-figure;
-h = imshow(ICN_2D_cluster_map,'InitialMagnification',10000);
 
 
 
