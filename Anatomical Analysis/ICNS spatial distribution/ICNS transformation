@@ -139,7 +139,7 @@ ICN_raw_micron(:,1) = ICN_raw(:,1);
 ICN_raw_micron(:,2) = ICN_raw(:,2);
 ICN_raw_micron(:,3) = ICN_raw(:,3) * (-10.002);
 ICN_raw_micron = unique(ICN_raw_micron,'rows');
-ICN_number = size(ICN_raw_micron,1);
+ICN_number = size(ICN_raw_micron,1); % Extended Data Fig. 31e
 scatter3(ICN_raw_micron(:,1),ICN_raw_micron(:,2),ICN_raw_micron(:,3),30,'ro','filled');
 
 %% Coordinate centering: Set tpAA = [0 -y 0] and tpPA = [0 y 0]
