@@ -1,0 +1,33 @@
+</> MATLAB
+
+load heart.mat
+
+%% ICN clusters based on Euclidean distance matrix
+% make ICN Euclidean distance matrix for raw and normalized ICNs
+rICN_distance = squareform(pdist(ICN_raw_micron));
+tnICN_distance = squareform(pdist(tnICN));
+rICN_linkage = linkage(rICN_distance);
+tnICN_linkage = linkage(tnICN_distance);
+
+% calculate ICN clustering and plot heatmap
+figure;
+[~,~,outperm] = dendrogram(rICN_linkage,0);
+
+% re-organize ICN clusters
+rICN_cluster = rICN_distance(outperm, outperm);
+tnICN_cluster = tnICN_distance(outperm, outperm);
+
+% plot heatmap for raw ICN distance matrix
+figure;
+heatmap_rICN_distance = heatmap(-rICN_cluster);
+heatmap_rICN_distance.GridVisible = 'off';
+heatmap_rICN_distance.ColorLimits = [-1000 0];
+heatmap_rICN_distance.Colormap = parula;
+
+% Plot heatmap for normalized ICN distance matrix
+figure;
+heatmap_tnICN_distance = heatmap(-tnICN_cluster);
+heatmap_tnICN_distance.GridVisible = 'off';
+heatmap_tnICN_distance.ColorLimits = [-1 0];
+heatmap_tnICN_distance.Colormap = parula;
+
