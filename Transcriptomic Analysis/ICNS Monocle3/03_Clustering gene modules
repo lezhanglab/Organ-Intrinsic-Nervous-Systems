@@ -80,7 +80,7 @@ mean_gg<-mean_df %>%
 mean_gg$time <- as.numeric(mean_gg$time)
 mean_gg$exprs <- as.numeric(mean_gg$exprs)
 
-pdf("cluster_PrecursortoNeuroblast.combine.pdf", width = 12, height = 4)
+pdf("cluster_PrecursortoNeuroblast.pdf", width = 12, height = 4)
 grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]], p[[5]],p[[6]],p[[7]],p[[8]],p[[9]],p[[10]],
              p[[11]], p[[12]],p[[13]],nrow = 4)
 dev.off()
@@ -261,7 +261,7 @@ mean_gg<-mean_df %>%
 mean_gg$time <- as.numeric(mean_gg$time)
 mean_gg$exprs <- as.numeric(mean_gg$exprs)
 
-pdf("mean_PrecursortoNeuroblast.combine.pdf", width = 6, height = 4)
+pdf("cluster_PrecursortoNeuroblast.combine.pdf", width = 12, height = 4)
 grid.arrange(p[[1]],p[[2]],p[[3]],p[[4]],p[[5]],p[[6]],nrow = 1)
 dev.off()
 
