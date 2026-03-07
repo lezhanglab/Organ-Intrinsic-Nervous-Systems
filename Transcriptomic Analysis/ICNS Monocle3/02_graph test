@@ -1,4 +1,14 @@
+</> R
+## R version 4.1.2 (2021-11-01)
 
+library(SeuratWrappers)
+library(monocle3)
+library(Seurat)
+library(ggplot2)
+library(patchwork)
+library(magrittr)
+library(htmlwidgets)
+library(Signac)
 
 setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/RDS/Trajectories/Integration_Data_CR7.1.0")
 cds <- readRDS("E12_E16_INCDCtoNeuron.rds")
