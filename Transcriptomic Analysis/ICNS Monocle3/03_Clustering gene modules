@@ -18,6 +18,8 @@ ss_cluster <- cutree(hclust_res, k = 13)
 ss_cluster <- as.data.frame(ss_cluster)
 ss_cluster$gene <- rownames(ss_cluster)
 
+saveRDS(ss_cluster, "ss_cluster_PrecursortoNeuroblast.rds")
+
 ts <- read.csv("PrecursortoNeuroblast_final_time_expN.csv",check.names = FALSE) %>%
   t() %>%
   as.data.frame()
