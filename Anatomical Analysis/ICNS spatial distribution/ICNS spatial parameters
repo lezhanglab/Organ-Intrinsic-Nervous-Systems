@@ -119,16 +119,45 @@ rICN_distance_nearest = mean(rICN_distance_nearest(:,2:k+1),2);
 
 tnICN_2D_p = tnICN_2D/ICN_number;
 
+save heart.mat
+
+
+load allheart_2D.mat % allheart_2D.mat stores heart.mat data from all samples.
 
 %% ICNS spatial distributions across animals and developmental stages (Extended Data Fig. 31d)
+stage_idx = {1:12, 13:19, 20:27, 28:33, 34:36, 37:42};
+% stage_names = {'E12.5', 'E13.5', 'E14.5', 'E16.5', 'E18.5', 'P01'};
+
+%% tnICN_2D_p variability 
+
+AgeNum    = numel(stage_idx); % number of developmental stages 
+SampleNum = cellfun(@numel, stage_idx); % number of samples at each developmental stage 
+
+for s = 1:AgeNum
+    idx = stage_idx{s};
+
+    % gather maps for this developmental stage 
+    maps  = cell(1, numel(idx));
+    for t = 1:numel(idx)
+        M = allheart_2D(idx(t)).tnICN_2D_p;
+        maps{t} = M;
+    end
+
+    % compute the mean for this developmental stage 
+    stack = cat(3, maps{:});                    % X × Y × Nsamples
+    mean_tnICN_2D_p(:,:,s) = mean(stack, 3);    % average map for stage s.
+end
+
 for i = 1:AgeNum
     for j = 1:SampleNum(i)
-        A = tnICN_2D_p{i,j};
+        A = allheart_2D(stage_idx{i}(j)).tnICN_2D_p;
         B = A - mean_tnICN_2D_p(:,:,i);
         C = B.^2;
         std_tnICN_2D_p(i,j) = sum(sum(C));
     end
 end
+
+
 
 
 
