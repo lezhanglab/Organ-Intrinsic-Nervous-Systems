@@ -1,7 +1,6 @@
 </> R
 ## R version 4.1.2 (2021-11-01)
 
-library(dplyr)
 library(cluster)
 library(Seurat)
 library(dplyr)
@@ -40,7 +39,6 @@ data <- data %>%
 label <- data$label
 data <- data[,-2955]
 write.csv(data, "data.csv", row.names = T)
-data <- read.csv("data.csv")
 col_fun <- colorRamp2(c(min(time),max(time)),c("white","blue"))
 pt <- time$.
 colAnn <- HeatmapAnnotation(pseudotime=as.numeric(pt),
@@ -53,6 +51,5 @@ ht=Heatmap(as.matrix(data),col = colorRamp2(myBreaks1, myCol1),top_annotation = 
            show_row_names=FALSE,show_column_names =FALSE,cluster_columns = F,cluster_rows = F,
            left_annotation = rolAnn, right_annotation = ha)
 draw(ht)
-dev.off()
 
 
