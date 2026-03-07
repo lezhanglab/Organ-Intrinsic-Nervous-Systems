@@ -1,0 +1,13 @@
+
+
+setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/RDS/Trajectories/Integration_Data_CR7.1.0")
+cds <- readRDS("E12_E16_INCDCtoNeuron.rds")
+plot_cells(cds) #2970 cells
+setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/Analysis Genes/ENSvsICN/100823_ICN")
+#Event identification
+list_mono <- graph_test(cds, neighbor_graph="principal_graph", cores=4)
+#Check q_value cutoff
+gene_list <- list_mono %>% 
+  filter(q_value<0.01) # 32285 genes -> 7293 genes
+saveRDS(gene_list,paste("gene_list","INCDCtoNeuron",".rds",sep = ""))
+gene_list <- readRDS("gene_listINCDCtoNeuron.rds")
