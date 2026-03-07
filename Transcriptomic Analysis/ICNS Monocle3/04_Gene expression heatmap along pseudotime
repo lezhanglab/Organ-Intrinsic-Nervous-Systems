@@ -1,3 +1,18 @@
+library(SeuratWrappers)
+library(monocle3)
+library(Seurat)
+library(ggplot2)
+library(patchwork)
+library(magrittr)
+library(htmlwidgets)
+library(Signac)
+library(dplyr)
+library(cowplot)
+library(RColorBrewer)
+library(gridExtra)
+library(tidyr)
+library(CellChat)
+
 #ICN
 setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/Analysis Genes/ENSvsICN/100823_ICN")
 new_time <- read.csv("INCDCtoNeuron_final_time_expN.csv", check.names = F)
