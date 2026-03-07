@@ -11,18 +11,14 @@ library(RColorBrewer)
 library(gridExtra)
 library(colorRamp2)
 library(ComplexHeatmap)
+library(GetoptLong)
 
 ss_cluster <- readRDS("ss_cluster_PrecursortoNeuroblast.rds")
 
 gene_ts <- readRDS("PrecursortoNeuroblast_final_time_expN.rds")
+
 time <- gene_ts$time %>% as.data.frame()
-#df.t <- readRDS("INCDCtoNeuron.df.t.rds")
-#df.t <- subset(df.t, df.t$range>0.3)
-#df.t <- df.t %>% arrange(df.t$range)
-#df.t$label <- factor(ss_cluster$ss_cluster,levels = c(12,10,6,8,2,4,7,9,5,3,1,11,13))
-#df.t <- df.t %>%
-  #arrange(label)
-#C10,12
+
 ha = rowAnnotation(foo = anno_mark(at = c(609,315,369,332,311,339,587,360,
                                           300,130,253,204,312,357,1318,1364,1421,1395,1404,1413,
                                           1688,2716,2017,1079,1132,1084,1668,1088,1611,2057,2047,
@@ -36,46 +32,13 @@ ha = rowAnnotation(foo = anno_mark(at = c(609,315,369,332,311,339,587,360,
                                               "L1cam",
                                               "Nrp1","Notch1","Cd47","Nlgn1")))
 
-
-
-#SCP <- c("Serpine2","Itga4","Ednrb","Sox10","Erbb3","Foxd3","Ets1","Plp1")
-#Motility <- read.delim("~/Documents/Manuscript/Figures/Final Figures/Main figures/Data for Fig.2/GenePlots/0048870_CellMotility_C10,12.txt", header=FALSE, comment.char="#")
-#m <- Motility$V2
-#ECM <- read.delim("~/Documents/Manuscript/Figures/Final Figures/Main figures/Data for Fig.2/GenePlots/ECM_C10,12.txt", header=FALSE, comment.char="#")
-#e <- ECM$V2
-#gene <- c(SCP,e,m) %>% unique() %>% as.data.frame()
-#data <- gene_ts[colnames(gene_ts) %in% gene$.]
-#data10 <- data[colnames(data) %in% c10$gene]
-#data12 <- data[colnames(data) %in% c12$gene]
-#data10 <- t(data10) %>% as.data.frame()
-#data12 <- t(data12) %>% as.data.frame()
-#write.csv(data10,"data10.csv",row.names = T) 
-#write.csv(data12,"data12.csv",row.names = T) 
-#library(readxl)
-#Heat_12_10 <- read.csv("~/Documents/Manuscript/Figures/Final Figures/Main figures/Data for Fig.2/GenePlots/Heat_12_10.csv", 
-                       #check.names = F)
-#heat1 <- Heat_12_10
-#heat <- heat1[,-1]
-#rownames(heat) <- heat1[,1]
-#data <- gene_ts[colnames(gene_ts) %in% SCP]
-#data <- gene_ts[colnames(gene_ts) %in% e]
-#data <- gene_ts[colnames(gene_ts) %in% gene$.]
-#data %>% slice(match(gene$., colnames(data)))
-#heat <- data
-#heat <- t(heat) %>% as.data.frame()
-#heat %>% slice(match(gene$., rownames(heat)))
-#rownames(heat) <- data$gene
-
 data <- gene_ts[,-1]
 data <- t(data) %>% as.data.frame()
-#data$gene <- rownames(gene_ts)
 data$label <- factor(ss_cluster$ss_cluster,levels = c(12,10,6,8,2,7,4,9,13,11,1,3,5))
 data <- data %>%
   arrange(label)
 label <- data$label
 data <- data[,-2955]
-#setwd("/Users/yvonnehsu/Documents/Manuscript/Figures/Final Figures/Main figures/Data for Fig.2/GenePlots")
-setwd("/Users/yvonnehsu/Documents_onMac/Manuscript/Figures/Final Figures/Main figures/Fig.2/Data for Fig.2/GenePlots")
 write.csv(data, "data.csv", row.names = T)
 data <- read.csv("data.csv")
 col_fun <- colorRamp2(c(min(time),max(time)),c("white","blue"))
@@ -84,8 +47,6 @@ colAnn <- HeatmapAnnotation(pseudotime=as.numeric(pt),
                             col = list(pseudotime=col_fun))
 rolAnn <- rowAnnotation(cluster = as.character(label),show_legend = FALSE)
 
-#rolAnn <- rowAnnotation(cluster = as.character(label),show_legend = FALSE)
-library(GetoptLong)
 myCol1 <- colorRampPalette(c("steelblue1","white","red"))(300)
 myBreaks1 <- seq(min(data),max(data), length.out=300)
 ht=Heatmap(as.matrix(data),col = colorRamp2(myBreaks1, myCol1),top_annotation = colAnn,
