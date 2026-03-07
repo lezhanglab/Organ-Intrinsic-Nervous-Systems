@@ -70,7 +70,7 @@ Mean_Range <- df.t[, c("mean", "range")]
 plot(Mean_Range)
 
 ##Test the cutoff by range
-remain <- subset(df.t, df.t$range>0.3) 
+remain <- subset(df.t, df.t$range>0.3) #2,734 genes
 remain <- remain %>% arrange(range)
 
 #Create time series on the "remain" genes
