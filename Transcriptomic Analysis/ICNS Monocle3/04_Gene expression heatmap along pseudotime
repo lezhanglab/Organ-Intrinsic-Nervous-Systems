@@ -1,3 +1,6 @@
+</> R
+## R version 4.1.2 (2021-11-01)
+
 library(SeuratWrappers)
 library(monocle3)
 library(Seurat)
@@ -11,16 +14,5 @@ library(cowplot)
 library(RColorBrewer)
 library(gridExtra)
 library(tidyr)
-library(CellChat)
 
-#ICN
-setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/Analysis Genes/ENSvsICN/100823_ICN")
-new_time <- read.csv("INCDCtoNeuron_final_time_expN.csv", check.names = F)
-time <- new_time[,1]
-gene_ts <- t(new_time[,-1]) %>% 
-  as.data.frame()
-hclust_res <- hclust(dist(gene_ts), method = "ward.D2")
-ss_cluster <- cutree(hclust_res, k = 13)
-ss_cluster <- as.data.frame(ss_cluster)
-ss_cluster$gene <- rownames(ss_cluster)
-saveRDS(ss_cluster, "ss_cluster_INCDCtoNeuron.rds")
+
