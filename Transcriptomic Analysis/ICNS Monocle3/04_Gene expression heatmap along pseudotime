@@ -1,17 +1,17 @@
+</> R
+## R version 4.1.2 (2021-11-01)
+
 library(dplyr)
 library(colorRamp2)
 library(ComplexHeatmap)
-library(GetoptLong)
 
-setwd("/Users/yvonnehsu/Documents/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/Analysis Genes/ENSvsICN/100823_ICN")
-ss_cluster <- readRDS("ss_cluster_INCDCtoNeuron.rds")
-setwd("/Users/yvonnehsu/Documents_onMac/Integration/Manuscript/Confirmed analysis/05.11.23_Updated analysis/Analysis Genes/ENSvsICN/100823_ICN")
-gene_ts <- readRDS("INCDCtoNeuron_final_time_expN.rds")
+ss_cluster <- readRDS("ss_cluster_PrecursortoNeuroblast.rds")
+gene_ts <- readRDS("PrecursortoNeuroblast_final_time_expN.rds")
 
 # pseudotime
 pt <- gene_ts$time
 
-# expression matrix
+# expression matrix with genes as rows
 data <- gene_ts[, -1] #remove the "time" column
 data <- t(data) %>% as.data.frame()
 
@@ -84,8 +84,7 @@ colAnn <- HeatmapAnnotation(
   col = list(pseudotime = pt_col_fun)
 )
 
-# left annotation: numeric cluster labels
-# this keeps the order of 12,10,6,8,... 
+# left annotation with A-F groups, but keeps the cluster order of 12,10,6,8,... 
 cluster_col <- c(
   "12" = "#E41A1C",
   "10" = "#377EB8",
@@ -125,7 +124,7 @@ ht <- Heatmap(
   row_title_rot = 0
 )
 
-pdf("/Volumes/YvonneData3/Revision_Feb2026/Figures_Source_Data/Extended Data Fig.8/Original_source/Heatmap/PrecursortoNeuroblast_heatmap.pdf", width = 8, height = 10)
+pdf("PrecursortoNeuroblast_heatmap.pdf", width = 8, height = 10)
 draw(ht)
 dev.off()
 
