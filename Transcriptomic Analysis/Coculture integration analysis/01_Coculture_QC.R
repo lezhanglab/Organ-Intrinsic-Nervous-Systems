@@ -336,6 +336,10 @@ ENS_Gut_081423 <- readRDS("ENS_Gut_081423.QC.Phox2b.rds")
 ENS_Gut_090523 <- readRDS("ENS_Gut_090523.QC.Phox2b.rds") 
 ENS_Gut_042023 <- readRDS("ENS_Gut_042023.QC.Phox2b.rds") 
 
+## Apply more stringent QC for multiple dataset integration
+
+
+
 
 
             
