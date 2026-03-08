@@ -1,4 +1,6 @@
-
+</> R
+## R version 4.1.2 (2021-11-01)
+## SeuratObject_4.1.3 sp_2.2-0    
 
 library(Seurat)
 library(dplyr)
@@ -49,7 +51,7 @@ ENS_Heart_051923.QC.1 <- NormalizeData(object = ENS_Heart_051923.QC, verbose = F
 ENS_Heart_051923.QC.1 <- FindVariableFeatures(object = ENS_Heart_051923.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Heart_051923.QC.1))
 ENS_Heart_051923.QC.1 <- ScaleData(object = ENS_Heart_051923.QC.1, verbose = FALSE)
-ENS_Heart_051923.QC.1 <- RunPCA(object = ENS_Heart_051923.QC.1, verbose = FALSE, dims = 50)
+ENS_Heart_051923.QC.1 <- RunPCA(object = ENS_Heart_051923.QC.1, verbose = FALSE)
 ENS_Heart_051923.QC.1 <- RunUMAP(object = ENS_Heart_051923.QC.1, dims = 1:50)
 ENS_Heart_051923.QC.1 <- FindNeighbors(object = ENS_Heart_051923.QC.1, dims = 1:50)
 ENS_Heart_051923.QC.1 <- FindClusters(object = ENS_Heart_051923.QC.1, resolution = 0.6)
@@ -75,7 +77,7 @@ ENS_Heart_090523.QC.1 <- NormalizeData(object = ENS_Heart_090523.QC, verbose = F
 ENS_Heart_090523.QC.1 <- FindVariableFeatures(object = ENS_Heart_090523.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Heart_090523.QC.1))
 ENS_Heart_090523.QC.1 <- ScaleData(object = ENS_Heart_090523.QC.1, verbose = FALSE)
-ENS_Heart_090523.QC.1 <- RunPCA(object = ENS_Heart_090523.QC.1, verbose = FALSE, dims = 50)
+ENS_Heart_090523.QC.1 <- RunPCA(object = ENS_Heart_090523.QC.1, verbose = FALSE)
 ENS_Heart_090523.QC.1 <- RunUMAP(object = ENS_Heart_090523.QC.1, dims = 1:50)
 ENS_Heart_090523.QC.1 <- FindNeighbors(object = ENS_Heart_090523.QC.1, dims = 1:50)
 ENS_Heart_090523.QC.1 <- FindClusters(object = ENS_Heart_090523.QC.1, resolution = 0.6)
@@ -173,7 +175,7 @@ ENS_Gut_090523.QC.1 <- NormalizeData(object = ENS_Gut_090523.QC, verbose = FALSE
 ENS_Gut_090523.QC.1 <- FindVariableFeatures(object = ENS_Gut_090523.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_090523.QC.1))
 ENS_Gut_090523.QC.1 <- ScaleData(object = ENS_Gut_090523.QC.1, verbose = FALSE)
-ENS_Gut_090523.QC.1 <- RunPCA(object = ENS_Gut_090523.QC.1, verbose = FALSE, dims = 50)
+ENS_Gut_090523.QC.1 <- RunPCA(object = ENS_Gut_090523.QC.1, verbose = FALSE)
 ENS_Gut_090523.QC.1 <- RunUMAP(object = ENS_Gut_090523.QC.1, dims = 1:50)
 ENS_Gut_090523.QC.1 <- FindNeighbors(object = ENS_Gut_090523.QC.1, dims = 1:50)
 ENS_Gut_090523.QC.1 <- FindClusters(object = ENS_Gut_090523.QC.1, resolution = 0.6)
@@ -198,7 +200,7 @@ ENS_Gut_081423.QC.1 <- NormalizeData(object = ENS_Gut_081423.QC, verbose = FALSE
 ENS_Gut_081423.QC.1 <- FindVariableFeatures(object = ENS_Gut_081423.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_081423.QC.1))
 ENS_Gut_081423.QC.1 <- ScaleData(object = ENS_Gut_081423.QC.1, verbose = FALSE)
-ENS_Gut_081423.QC.1 <- RunPCA(object = ENS_Gut_081423.QC.1, verbose = FALSE, dims = 50)
+ENS_Gut_081423.QC.1 <- RunPCA(object = ENS_Gut_081423.QC.1, verbose = FALSE)
 ENS_Gut_081423.QC.1 <- RunUMAP(object = ENS_Gut_081423.QC.1, dims = 1:50)
 ENS_Gut_081423.QC.1 <- FindNeighbors(object = ENS_Gut_081423.QC.1, dims = 1:50)
 ENS_Gut_081423.QC.1 <- FindClusters(object = ENS_Gut_081423.QC.1, resolution = 0.6)
@@ -221,7 +223,7 @@ ENS_Gut_081423.QC.Phox2b.1 <- NormalizeData(object = ENS_Gut_081423.QC.Phox2b, v
 ENS_Gut_081423.QC.Phox2b.1 <- FindVariableFeatures(object = ENS_Gut_081423.QC.Phox2b.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_081423.QC.Phox2b.1))
 ENS_Gut_081423.QC.Phox2b.1 <- ScaleData(object = ENS_Gut_081423.QC.Phox2b.1, verbose = FALSE)
-ENS_Gut_081423.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_081423.QC.Phox2b.1, verbose = FALSE, dims = 50)
+ENS_Gut_081423.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_081423.QC.Phox2b.1, verbose = FALSE)
 ENS_Gut_081423.QC.Phox2b.1 <- RunUMAP(object = ENS_Gut_081423.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_081423.QC.Phox2b.1 <- FindNeighbors(object = ENS_Gut_081423.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_081423.QC.Phox2b.1 <- FindClusters(object = ENS_Gut_081423.QC.Phox2b.1, resolution = 4)
@@ -240,7 +242,7 @@ ENS_Gut_051923.QC.1 <- NormalizeData(object = ENS_Gut_051923.QC, verbose = FALSE
 ENS_Gut_051923.QC.1 <- FindVariableFeatures(object = ENS_Gut_051923.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_051923.QC.1))
 ENS_Gut_051923.QC.1 <- ScaleData(object = ENS_Gut_051923.QC.1, verbose = FALSE)
-ENS_Gut_051923.QC.1 <- RunPCA(object = ENS_Gut_051923.QC.1, verbose = FALSE, dims = 50)
+ENS_Gut_051923.QC.1 <- RunPCA(object = ENS_Gut_051923.QC.1, verbose = FALSE)
 ENS_Gut_051923.QC.1 <- RunUMAP(object = ENS_Gut_051923.QC.1, dims = 1:50)
 ENS_Gut_051923.QC.1 <- FindNeighbors(object = ENS_Gut_051923.QC.1, dims = 1:50)
 ENS_Gut_051923.QC.1 <- FindClusters(object = ENS_Gut_051923.QC.1, resolution = 4) #0.6 -> 4
@@ -265,7 +267,7 @@ ENS_Gut_051923.QC.Phox2b.1 <- NormalizeData(object = ENS_Gut_051923.QC.Phox2b, v
 ENS_Gut_051923.QC.Phox2b.1 <- FindVariableFeatures(object = ENS_Gut_051923.QC.Phox2b.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_051923.QC.Phox2b.1))
 ENS_Gut_051923.QC.Phox2b.1 <- ScaleData(object = ENS_Gut_051923.QC.Phox2b.1, verbose = FALSE)
-ENS_Gut_051923.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_051923.QC.Phox2b.1, verbose = FALSE, dims = 50)
+ENS_Gut_051923.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_051923.QC.Phox2b.1, verbose = FALSE)
 ENS_Gut_051923.QC.Phox2b.1 <- RunUMAP(object = ENS_Gut_051923.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_051923.QC.Phox2b.1 <- FindNeighbors(object = ENS_Gut_051923.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_051923.QC.Phox2b.1 <- FindClusters(object = ENS_Gut_051923.QC.Phox2b.1, resolution = 4)
@@ -285,7 +287,7 @@ ENS_Gut_042023.QC.1 <- NormalizeData(object = ENS_Gut_042023.QC, verbose = FALSE
 ENS_Gut_042023.QC.1 <- FindVariableFeatures(object = ENS_Gut_042023.QC.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_042023.QC.1))
 ENS_Gut_042023.QC.1 <- ScaleData(object = ENS_Gut_042023.QC.1, verbose = FALSE)
-ENS_Gut_042023.QC.1 <- RunPCA(object = ENS_Gut_042023.QC.1, verbose = FALSE, dims = 50)
+ENS_Gut_042023.QC.1 <- RunPCA(object = ENS_Gut_042023.QC.1, verbose = FALSE)
 ENS_Gut_042023.QC.1 <- RunUMAP(object = ENS_Gut_042023.QC.1, dims = 1:50)
 ENS_Gut_042023.QC.1 <- FindNeighbors(object = ENS_Gut_042023.QC.1, dims = 1:50)
 ENS_Gut_042023.QC.1 <- FindClusters(object = ENS_Gut_042023.QC.1, resolution = 10) #0.6 to 4 to 6 to 10
@@ -312,7 +314,7 @@ ENS_Gut_042023.QC.Phox2b.1 <- NormalizeData(object = ENS_Gut_042023.QC.Phox2b, v
 ENS_Gut_042023.QC.Phox2b.1 <- FindVariableFeatures(object = ENS_Gut_042023.QC.Phox2b.1, selection.method = 'vst', nfeatures = 2000, verbose = FALSE)
 length(x = VariableFeatures(object = ENS_Gut_042023.QC.Phox2b.1))
 ENS_Gut_042023.QC.Phox2b.1 <- ScaleData(object = ENS_Gut_042023.QC.Phox2b.1, verbose = FALSE)
-ENS_Gut_042023.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_042023.QC.Phox2b.1, verbose = FALSE, dims = 100) 
+ENS_Gut_042023.QC.Phox2b.1 <- RunPCA(object = ENS_Gut_042023.QC.Phox2b.1, verbose = FALSE) 
 ENS_Gut_042023.QC.Phox2b.1 <- RunUMAP(object = ENS_Gut_042023.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_042023.QC.Phox2b.1 <- FindNeighbors(object = ENS_Gut_042023.QC.Phox2b.1, dims = 1:50)
 ENS_Gut_042023.QC.Phox2b.1 <- FindClusters(object = ENS_Gut_042023.QC.Phox2b.1, resolution = 4)
@@ -333,6 +335,10 @@ ENS_Gut_051923 <- readRDS("ENS_Gut_051923.QC.Phox2b.rds")
 ENS_Gut_081423 <- readRDS("ENS_Gut_081423.QC.Phox2b.rds") 
 ENS_Gut_090523 <- readRDS("ENS_Gut_090523.QC.Phox2b.rds") 
 ENS_Gut_042023 <- readRDS("ENS_Gut_042023.QC.Phox2b.rds") 
+
+
+
+            
 
 
 
