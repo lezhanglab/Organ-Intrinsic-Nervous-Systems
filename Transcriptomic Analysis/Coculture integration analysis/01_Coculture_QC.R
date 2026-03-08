@@ -329,15 +329,20 @@ DimPlot(object = ENS_Gut_042023.QC.Phox2b, reduction = 'umap', label = TRUE)
 ENS_Gut_042023.QC.Phox2b 
 saveRDS(ENS_Gut_042023.QC.Phox2b, "ENS_Gut_042023.QC.Phox2b.rds")
 
-ENS_Heart_051923 <- readRDS("ENS_Heart_051923.QC.Phox2b.rds") 
-ENS_Heart_090523 <- readRDS("ENS_Heart_090523.QC.Phox2b.rds") 
-ENS_Gut_051923 <- readRDS("ENS_Gut_051923.QC.Phox2b.rds") 
-ENS_Gut_081423 <- readRDS("ENS_Gut_081423.QC.Phox2b.rds") 
-ENS_Gut_090523 <- readRDS("ENS_Gut_090523.QC.Phox2b.rds") 
-ENS_Gut_042023 <- readRDS("ENS_Gut_042023.QC.Phox2b.rds") 
-
 ## Apply more stringent QC for multiple dataset integration
+eh_1 <- readRDS("ENS_Heart_090523.QC.Phox2b.rds") 
+eh_2 <- readRDS("ENS_Heart_051923.QC.Phox2b.rds") 
+eg_1 <- readRDS("ENS_Gut_081423.QC.Phox2b.rds") 
+eg_2 <- readRDS("ENS_Gut_051923.QC.Phox2b.rds") 
+eg_3 <- readRDS("ENS_Gut_042023.QC.Phox2b.rds") 
+eg_4 <- readRDS("ENS_Gut_090523.QC.Phox2b.rds") 
 
+eg_1 <- subset(x = eg_1, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
+eg_2 <- subset(x = eg_2, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
+eg_3 <- subset(x = eg_3, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
+eg_4 <- subset(x = eg_4, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
+eh_1 <- subset(x = eh_1, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
+eh_2 <- subset(x = eh_2, subset = nFeature_RNA > 2500 & nFeature_RNA < 20000 & percent.mito < 0.05) 
 
 
 
